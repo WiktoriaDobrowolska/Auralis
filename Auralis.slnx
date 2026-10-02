@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Auralis.App/Auralis.App.csproj" />
+    <Project Path="src/Auralis.Core/Auralis.Core.csproj" />
+    <Project Path="src/Auralis.Data/Auralis.Data.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Auralis.Tests/Auralis.Tests.csproj" />
+  </Folder>
+</Solution>
