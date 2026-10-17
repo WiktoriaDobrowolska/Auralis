@@ -1,0 +1,84 @@
+erDiagram
+    Products ||--o{ MealItems : "użyty w"
+    Products ||--o{ RecipeItems : "użyty w"
+    Meals ||--o{ MealItems : "zawiera"
+    Recipes ||--o{ RecipeItems : "składa się z"
+ 
+    Products {
+        integer Id PK
+        text Name UK "bez rozróżniania wielkości liter"
+        real Kcal
+        real Protein
+        real Fat
+        real Carbs
+        real SaturatedFat "może być pusty"
+        real UnsaturatedFat "może być pusty"
+        real Sugars "może być pusty"
+        real Fiber "może być pusty"
+        real Salt "może być pusty"
+        integer IsArchived "0 lub 1"
+    }
+ 
+    Meals {
+        integer Id PK
+        text Date "RRRR-MM-DD"
+        integer MealType "0-4"
+    }
+ 
+    MealItems {
+        integer Id PK
+        integer MealId FK
+        integer ProductId FK
+        real Grams
+        real Kcal "kopia z chwili dodania"
+        real Protein
+        real Fat
+        real Carbs
+        real SaturatedFat "kopia, może być pusty"
+        real UnsaturatedFat "kopia, może być pusty"
+        real Sugars "kopia, może być pusty"
+        real Fiber "kopia, może być pusty"
+        real Salt "kopia, może być pusty"
+        text DishId "może być pusty"
+        text DishName "może być pusty"
+    }
+ 
+    Recipes {
+        integer Id PK
+        text Name UK
+        integer Servings
+    }
+ 
+    RecipeItems {
+        integer Id PK
+        integer RecipeId FK
+        integer ProductId FK
+        real Grams
+    }
+ 
+    ActivityEntries {
+        integer Id PK
+        text Date
+        text Name
+        integer DurationMin
+        real KcalBurned
+    }
+ 
+    DailyGoals {
+        integer Id PK
+        text EffectiveFrom UK
+        real Kcal
+        real ProteinG
+        real FatG
+        real CarbsG
+    }
+ 
+    UserProfiles {
+        integer Id PK
+        integer Sex
+        text BirthDate
+        real HeightCm
+        real WeightKg
+        integer Activity
+        integer Goal
+    }

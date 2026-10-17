@@ -1,0 +1,141 @@
+classDiagram
+    direction TB
+ 
+    class UserProfile {
+        +int Id
+        +Sex Sex
+        +DateOnly BirthDate
+        +decimal HeightCm
+        +decimal WeightKg
+        +ActivityLevel Activity
+        +Objective Goal
+        +AgeOn(date) int
+    }
+ 
+    class ActivityEntry {
+        +int Id
+        +DateOnly Date
+        +string Name
+        +int DurationMin
+        +decimal KcalBurned
+    }
+ 
+    class DailyGoal {
+        +int Id
+        +DateOnly EffectiveFrom
+        +decimal Kcal
+        +decimal ProteinG
+        +decimal FatG
+        +decimal CarbsG
+    }
+ 
+    class Sex {
+<<enumeration>>
+        Female
+        Male
+    }
+ 
+    class ActivityLevel {
+<<enumeration>>
+        Sedentary
+        Light
+        Moderate
+        High
+        VeryHigh
+    }
+ 
+    class Objective {
+<<enumeration>>
+        Lose
+        Maintain
+        Gain
+    }
+ 
+    class MealType {
+<<enumeration>>
+        Breakfast
+        SecondBreakfast
+        Lunch
+        Snack
+        Dinner
+    }
+ 
+    class Nutrition {
+<<value object>>
+        +decimal Kcal
+        +decimal Protein
+        +decimal Fat
+        +decimal Carbs
+        +ForGrams(grams) Nutrition
+    }
+ 
+    class NutritionDetails {
+<<value object>>
+        +decimal? SaturatedFat
+        +decimal? UnsaturatedFat
+        +decimal? Sugars
+        +decimal? Fiber
+        +decimal? Salt
+        +ForGrams(grams) NutritionDetails
+    }
+ 
+    class Product {
+        +int Id
+        +string Name
+        +Nutrition Per100g
+        +NutritionDetails Details
+        +bool IsArchived
+        +Archive()
+        +IsKcalConsistent() bool
+    }
+ 
+    class Recipe {
+        +int Id
+        +string Name
+        +int Servings
+        +Total() Nutrition
+        +PerServing() Nutrition
+        +TotalDetails() NutritionDetails
+        +HasIncompleteDetails() bool
+        +ToMealItems(portions) List~MealItem~
+    }
+ 
+    class RecipeItem {
+        +int Id
+        +decimal Grams
+    }
+ 
+    class Meal {
+        +int Id
+        +DateOnly Date
+        +MealType Type
+        +Total() Nutrition
+        +TotalDetails() NutritionDetails
+        +HasIncompleteDetails() bool
+        +DishTotal(dishId) Nutrition
+        +GroupIntoDish(itemIds, name)
+        +Ungroup(dishId)
+    }
+ 
+    class MealItem {
+        +int Id
+        +decimal Grams
+        +Nutrition Consumed
+        +NutritionDetails ConsumedDetails
+        +Guid? DishId
+        +string? DishName
+    }
+ 
+    Meal "1" *-- "0..*" MealItem : zawiera
+    Recipe "1" *-- "1..*" RecipeItem : składa się z
+    Product "1" --> "0..*" MealItem : jest użyty w
+    Product "1" --> "0..*" RecipeItem : jest użyty w
+    Recipe ..> MealItem : tworzy danie z kopii pozycji
+    Product *-- Nutrition : Per100g
+    Product *-- "0..1" NutritionDetails : Details
+    MealItem *-- Nutrition : Consumed
+    MealItem *-- "0..1" NutritionDetails : ConsumedDetails
+    Meal ..> MealType
+    UserProfile ..> Sex
+    UserProfile ..> ActivityLevel
+    UserProfile ..> Objective

@@ -1,0 +1,25 @@
+flowchart TB
+    subgraph App["Auralis.App (WPF)"]
+        Views["Views: okna XAML"]
+        VMs["ViewModels"]
+        Nav["Nawigacja i komunikaty o błędach"]
+    end
+    subgraph Core["Auralis.Core"]
+        Services["Serwisy: ProductService, MealService, RecipeService, GoalService, ActivityService, ProfileService, StatisticsService, TargetCalculator"]
+        Model["Model: encje, Nutrition, enumy, wyjątek domenowy"]
+        Interfaces["Interfejsy: repozytoria, IBmrFormula"]
+    end
+    subgraph Data["Auralis.Data"]
+        Repos["Repozytoria: implementacje interfejsów"]
+        Db["AuralisDbContext, EF Core"]
+        Init["Inicjalizacja bazy, kopia zapasowa, dane startowe"]
+    end
+    Views --> VMs
+    VMs --> Nav
+    VMs --> Services
+    Services --> Model
+    Services --> Interfaces
+    Repos -.->|implementuje| Interfaces
+    Repos --> Db
+    Init --> Db
+    Db --> File[("plik .db, SQLite")]

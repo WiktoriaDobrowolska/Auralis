@@ -1,0 +1,21 @@
+flowchart TB
+    Start["Start aplikacji"] --> Czy{"Jest profil i cel?"}
+    Czy -- nie --> Cel
+    Czy -- tak --> Dziennik
+    subgraph Main["Okno główne: menu boczne + obszar treści"]
+        Dziennik["Dziennik dnia"]
+        Produkty["Produkty"]
+        Przepisy["Przepisy"]
+        Aktywnosci["Aktywności"]
+        Raport["Raport tygodniowy"]
+        Cel["Profil i cel z kalkulatorem"]
+    end
+    Dziennik -.-> D1["Dialog: dodaj pozycję, wyszukiwarka produktów"]
+    Dziennik -.-> D2["Dialog: dodaj przepis do sekcji"]
+    Dziennik -.-> D3["Dialog: zgrupuj w danie"]
+    Dziennik -.-> D4["Dialog: dodaj aktywność"]
+    Aktywnosci -.-> D4
+    D1 -.->|brak wyników| P1
+    Produkty -.-> P1["Dialog: produkt, tryb szybki lub pełny"]
+    Przepisy -.-> R1["Edytor przepisu"]
+    Cel -.-> K["Podgląd propozycji kalkulatora"]
